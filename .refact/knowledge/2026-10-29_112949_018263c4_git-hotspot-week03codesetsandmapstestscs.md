@@ -14,8 +14,8 @@ source_tool: "buddy_memory_lifecycle:git"
 source_confidence: 0.740
 source_commit: "860e1058a9ef"
 source_content_hash: "8cf9b01ac2ac8596f8cd1ad267429ec2cd5c4c775b7fc372f239c42915d8fafc"
-occurrences: 4
-last_observed: "2026-11-09T11:58:44.439289+00:00"
+occurrences: 5
+last_observed: "2026-11-12T12:56:21.757342800+00:00"
 ---
 
 Git hotspot: week03/code/SetsAndMaps_Tests.cs

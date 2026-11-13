@@ -11,8 +11,8 @@ public class TakingTurnsQueueTests
     // Scenario: Create a queue with the following people and turns: Bob (2), Tim (5), Sue (3) and
     // run until the queue is empty
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
-    // Defect(s) Found:  Test failed. Expected Bob but got Sue on the first call. People came out in LIFO order instead of FIFO order.
-    public void TestTakingTurnsQueue_FiniteRepetition()
+    // Defect(s) Found: Expected Bob on the first call but got Sue. The queue returned the most recently added person (LIFO) instead of the earliest added (FIFO).
+public void TestTakingTurnsQueue_FiniteRepetition()
     {
         var bob = new Person("Bob", 2);
         var tim = new Person("Tim", 5);
@@ -43,8 +43,9 @@ public class TakingTurnsQueueTests
     // Scenario: Create a queue with the following people and turns: Bob (2), Tim (5), Sue (3)
     // After running 5 times, add George with 3 turns.  Run until the queue is empty.
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, George, Sue, Tim, George, Tim, George
-    // Defect(s) Found: Test failed. Expected Bob but got Sue on the first call. People came out in LIFO order instead of FIFO order.
-    public void TestTakingTurnsQueue_AddPlayerMidway()
+    // Defect(s) Found: Test failed on the very first call (Expected Bob, got Sue), before George was added. Because of the LIFO ordering, the first fiveturns were already out of order, so George's placement at the back of the line after turn 5 could not be verified until the ordering was fixed.
+
+public void TestTakingTurnsQueue_AddPlayerMidway()
     {
         var bob = new Person("Bob", 2);
         var tim = new Person("Tim", 5);
@@ -85,8 +86,8 @@ public class TakingTurnsQueueTests
     // Scenario: Create a queue with the following people and turns: Bob (2), Tim (Forever), Sue (3)
     // Run 10 times.
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
-    // Defect(s) Found: Test failed. Expected Bob but got Sue on the first call. People came out in LIFO order instead of FIFO order.
-    public void TestTakingTurnsQueue_ForeverZero()
+    // Defect(s) Found: Expected Bob but got Sue on the first call due to LIFO ordering. This test also checks that Tim (0 turns) is re-enqueued indefinitely and that his Turns value stays 0 rather than being changed to a large number.
+public void TestTakingTurnsQueue_ForeverZero()
     {
         var timTurns = 0;
 
@@ -116,8 +117,8 @@ public class TakingTurnsQueueTests
     // Scenario: Create a queue with the following people and turns: Tim (Forever), Sue (3)
     // Run 10 times.
     // Expected Result: Tim, Sue, Tim, Sue, Tim, Sue, Tim, Tim, Tim, Tim
-    // Defect(s) Found: Test failed. Expected Bob but got Sue on the first call. People came out in LIFO order instead of FIFO order.
-    public void TestTakingTurnsQueue_ForeverNegative()
+    // Defect(s) Found: Expected Tim on the first call but got Sue (the last person added) due to LIFO ordering. There is no Bob in this test. It also checks that Tim's Turns stays -3 and he keeps getting re-enqueued.
+public void TestTakingTurnsQueue_ForeverNegative()
     {
         var timTurns = -3;
         var tim = new Person("Tim", timTurns);
